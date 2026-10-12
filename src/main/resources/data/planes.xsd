@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="Planes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Plane" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Model" type="xs:string" />
+                            <xs:element name="Origin" type="xs:string" />
+                            <xs:element name="Chars">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Type">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:enumeration value="Support" />
+                                                    <xs:enumeration value="Escort" />
+                                                    <xs:enumeration value="Fighter" />
+                                                    <xs:enumeration value="Interceptor" />
+                                                    <xs:enumeration value="Scout" />
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+                                        <xs:element name="Seats">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:integer">
+                                                    <xs:minInclusive value="1" />
+                                                    <xs:maxInclusive value="2" />
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+                                        <xs:element name="Ammunition" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="Missiles">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:integer">
+                                                                <xs:minInclusive value="0" />
+                                                                <xs:maxInclusive value="10" />
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element name="Radar" type="xs:boolean" />
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Parameters">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Length" type="xs:decimal" />
+                                        <xs:element name="Width" type="xs:decimal" />
+                                        <xs:element name="Height" type="xs:decimal" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Price" type="xs:integer" />
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:ID" use="required" />
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
