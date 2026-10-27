@@ -23,6 +23,7 @@ public class XmlValidator {
             validator.validate(new StreamSource(new File(xmlPath)));
 
             logger.info("Validation passed: {} conforms to {}", xmlPath, xsdPath);
+            return true;
 
         } catch (SAXException e) {
             logger.error("XML is not valid. Reason: {}", e.getMessage());
