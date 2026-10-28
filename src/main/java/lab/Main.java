@@ -58,43 +58,49 @@ public class Main {
             // plane.getPrice());
             // }
 
-            logger.info("--- Comparator (Sorting by Price) ---");
-            staxPlanes.sort(new PlanePriceComparator());
+            // logger.info("--- Comparator (Sorting by Price) ---");
+            // staxPlanes.sort(new PlanePriceComparator());
 
-            for (Plane plane : staxPlanes) {
-                logger.info("Sorted Plane -> ID: {}, Price: {}, Model: {}",
-                        plane.getId(),
-                        plane.getPrice(),
-                        plane.getModel());
-            }
+            // for (Plane plane : staxPlanes) {
+            //     logger.info("Sorted Plane -> ID: {}, Price: {}, Model: {}",
+            //             plane.getId(),
+            //             plane.getPrice(),
+            //             plane.getModel());
+            // }
 
-            logger.info("--- Comparator (Sorting by Model) ---");
-            staxPlanes.sort(new PlaneModelComparator());
-            for (Plane plane : staxPlanes) {
-                logger.info("Sorted by Model -> Model: {}, ID: {}, Origin: {}",
-                        plane.getModel(), plane.getId(), plane.getOrigin());
-            }
+            // logger.info("--- Comparator (Sorting by Model) ---");
+            // staxPlanes.sort(new PlaneModelComparator());
+            // for (Plane plane : staxPlanes) {
+            //     logger.info("Sorted by Model -> Model: {}, ID: {}, Origin: {}",
+            //             plane.getModel(), plane.getId(), plane.getOrigin());
+            // }
 
-            logger.info("--- Comparator (Sorting by Origin) ---");
-            staxPlanes.sort(new PlaneOriginComparator());
-            for (Plane plane : staxPlanes) {
-                logger.info("Sorted by Origin -> Origin: {}, ID: {}, Model: {}",
-                        plane.getOrigin(), plane.getId(), plane.getModel());
-            }
+            // logger.info("--- Comparator (Sorting by Origin) ---");
+            // staxPlanes.sort(new PlaneOriginComparator());
+            // for (Plane plane : staxPlanes) {
+            //     logger.info("Sorted by Origin -> Origin: {}, ID: {}, Model: {}",
+            //             plane.getOrigin(), plane.getId(), plane.getModel());
+            // }
 
-            logger.info("--- Comparator (Sorting by Seats) ---");
-            staxPlanes.sort(new PlaneSeatsComparator());
-            for (Plane plane : staxPlanes) {
-                logger.info("Sorted by Seats -> Seats: {}, ID: {}, Model: {}",
-                        plane.getChars().getSeats(), plane.getId(), plane.getModel());
-            }
+            // logger.info("--- Comparator (Sorting by Seats) ---");
+            // staxPlanes.sort(new PlaneSeatsComparator());
+            // for (Plane plane : staxPlanes) {
+            //     logger.info("Sorted by Seats -> Seats: {}, ID: {}, Model: {}",
+            //             plane.getChars().getSeats(), plane.getId(), plane.getModel());
+            // }
 
-            logger.info("--- Comparator (Sorting by Length) ---");
-            staxPlanes.sort(new PlaneLengthComparator());
-            for (Plane plane : staxPlanes) {
-                logger.info("Sorted by Length -> Length: {}m, ID: {}, Model: {}",
-                        plane.getParameters().getLength(), plane.getId(), plane.getModel());
-            }
+            // logger.info("--- Comparator (Sorting by Length) ---");
+            // staxPlanes.sort(new PlaneLengthComparator());
+            // for (Plane plane : staxPlanes) {
+            //     logger.info("Sorted by Length -> Length: {}m, ID: {}, Model: {}",
+            //             plane.getParameters().getLength(), plane.getId(), plane.getModel());
+            // }
+
+            logger.info("--- XML Transformation in XSLT) ---");
+            lab.transformer.XmlTransformer transformer = new lab.transformer.XmlTransformer();
+            String xslPath = "src/main/resources/data/transform.xsl";
+            String outputPath = "src/main/resources/data/grouped_planes.xml";
+            transformer.transform(xmlPath, xslPath, outputPath);
 
         } else {
             logger.error("Parsing aborted due to validation failure.");

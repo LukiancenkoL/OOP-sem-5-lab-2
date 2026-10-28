@@ -8,9 +8,15 @@
         <Planes>
             <xsl:for-each
                 select="Plane[generate-id() = generate-id(key('planeType', Chars/Type)[1])]">
-                <xsl:element name="{Chars/Type}">
+                <xsl:sort
+                    select="Chars/Type" data-type="text" order="ascending" />
+                <xsl:element
+                    name="{Chars/Type}">
                     <xsl:for-each select="key('planeType', Chars/Type)">
-                        <xsl:copy-of select="." />
+                        <xsl:sort
+                            select="Price" data-type="number" order="ascending" />
+                        <xsl:copy-of
+                            select="." />
                     </xsl:for-each>
                 </xsl:element>
             </xsl:for-each>
