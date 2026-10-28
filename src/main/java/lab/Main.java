@@ -3,6 +3,7 @@ package lab;
 import lab.model.Planes.Plane;
 import lab.parser.DomPlaneParser;
 import lab.parser.PlaneParser;
+import lab.parser.SaxPlaneParser;
 import lab.validator.XmlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +19,21 @@ public class Main {
         XmlValidator validator = new XmlValidator();
 
         if (validator.validate(xmlPath, xsdPath)) {
+            logger.info("--- DOM Parser ---");
             PlaneParser domParser = new DomPlaneParser();
             List<Plane> planes = domParser.parse(xmlPath);
-
             for (Plane plane : planes) {
+                logger.info("Parsed Plane -> ID: {}, Model: {}, Origin: {}, Price: {}",
+                        plane.getId(),
+                        plane.getModel(),
+                        plane.getOrigin(),
+                        plane.getPrice());
+            }
+
+            logger.info("--- SAX Parser ---");
+            PlaneParser saxParser = new SaxPlaneParser();
+            List<Plane> saxPlanes = saxParser.parse(xmlPath);
+            for (Plane plane : saxPlanes) {
                 logger.info("Parsed Plane -> ID: {}, Model: {}, Origin: {}, Price: {}",
                         plane.getId(),
                         plane.getModel(),
