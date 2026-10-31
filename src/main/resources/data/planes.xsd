@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:simpleType name="NonEmptyString">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DimensionType">
+        <xs:restriction base="xs:decimal">
+            <xs:minExclusive value="0" />
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:element name="Planes">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="Plane" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Model" type="xs:string" />
-                            <xs:element name="Origin" type="xs:string" />
+                            <xs:element name="Model" type="NonEmptyString" />
+                            <xs:element name="Origin" type="NonEmptyString" />
                             <xs:element name="Chars">
                                 <xs:complexType>
                                     <xs:sequence>
@@ -51,13 +64,13 @@
                             <xs:element name="Parameters">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="Length" type="xs:decimal" />
-                                        <xs:element name="Width" type="xs:decimal" />
-                                        <xs:element name="Height" type="xs:decimal" />
+                                        <xs:element name="Length" type="DimensionType" />
+                                        <xs:element name="Width" type="DimensionType" />
+                                        <xs:element name="Height" type="DimensionType" />
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element name="Price" type="xs:integer" />
+                            <xs:element name="Price" type="xs:positiveInteger" />
                         </xs:sequence>
                         <xs:attribute name="id" type="xs:ID" use="required" />
                     </xs:complexType>

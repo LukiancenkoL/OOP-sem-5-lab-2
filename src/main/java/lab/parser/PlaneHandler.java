@@ -5,7 +5,6 @@ import lab.model.Planes.Plane.Chars;
 import lab.model.Planes.Plane.Chars.Ammunition;
 import lab.model.Planes.Plane.Parameters;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -13,30 +12,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaneHandler extends DefaultHandler {
-    private List<Plane> planes;
+    private final List<Plane> planes = new ArrayList<>();
+    private final StringBuilder currentText = new StringBuilder();
     private Plane currentPlane;
     private Chars currentChars;
     private Ammunition currentAmmunition;
     private Parameters currentParameters;
-    private StringBuilder currentText;
-
-    public PlaneHandler() {
-        planes = new ArrayList<>();
-    }
 
     public List<Plane> getPlanes() {
         return planes;
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws SAXException {
-        currentText = new StringBuilder();
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        handleStart(qName, attributes.getValue("id"));
+    }
 
-        switch (qName) {
+    void handleStart(String name, String idAttribute) {
+        currentText.setLength(0);
+        switch (name) {
             case "Plane":
                 currentPlane = new Plane();
-                currentPlane.setId(attributes.getValue("id"));
+                currentPlane.setId(idAttribute);
                 break;
             case "Chars":
                 currentChars = new Chars();
@@ -47,21 +44,28 @@ public class PlaneHandler extends DefaultHandler {
             case "Parameters":
                 currentParameters = new Parameters();
                 break;
+            default:
+                break;
         }
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
-        if (currentText != null) {
-            currentText.append(ch, start, length);
-        }
+    public void characters(char[] ch, int start, int length) {
+        handleText(new String(ch, start, length));
+    }
+
+    void handleText(String data) {
+        currentText.append(data);
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(String uri, String localName, String qName) {
+        handleEnd(qName);
+    }
+
+    void handleEnd(String name) {
         String text = currentText.toString().trim();
-
-        switch (qName) {
+        switch (name) {
             case "Plane":
                 planes.add(currentPlane);
                 break;
@@ -76,6 +80,9 @@ public class PlaneHandler extends DefaultHandler {
                 break;
             case "Type":
                 currentChars.setType(text);
+                break;
+            case "Seats":
+                currentChars.setSeats(Integer.parseInt(text));
                 break;
             case "Missiles":
                 currentAmmunition.setMissiles(Integer.parseInt(text));
@@ -101,7 +108,9 @@ public class PlaneHandler extends DefaultHandler {
             case "Parameters":
                 currentPlane.setParameters(currentParameters);
                 break;
-
+            default:
+                break;
         }
     }
+
 }

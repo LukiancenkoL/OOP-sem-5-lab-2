@@ -2,13 +2,12 @@ package lab.validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.File;
-import javax.xml.validation.Validator;
-import org.xml.sax.SAXException;
 import java.io.IOException;
 
 public class XmlValidator {
@@ -16,21 +15,16 @@ public class XmlValidator {
 
     public boolean validate(String xmlPath, String xsdPath) {
         try {
-            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = schemaFactory.newSchema(new File(xsdPath));
-            Validator validator = schema.newValidator();
-
-            validator.validate(new StreamSource(new File(xmlPath)));
+            Schema schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
+                    .newSchema(new File(xsdPath));
+            schema.newValidator().validate(new StreamSource(new File(xmlPath)));
 
             logger.info("Validation passed: {} conforms to {}", xmlPath, xsdPath);
             return true;
-
-        } catch (SAXException e) {
-            logger.error("XML is not valid. Reason: {}", e.getMessage());
-        } catch (IOException e) {
-            logger.error("File reading error: {}", e.getMessage());
+        } catch (SAXException | IOException e) {
+            logger.error("Validation failed for {} against {}: {}", xmlPath, xsdPath, e.getMessage());
+            return false;
         }
-        return false;
     }
 
 }
