@@ -2,6 +2,7 @@ package lab.transformer;
 
 import org.junit.jupiter.api.Test;
 import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class XmlTransformerTest {
@@ -20,5 +21,13 @@ class XmlTransformerTest {
         assertTrue(outputFile.exists(), "Output file should be created");
 
         outputFile.delete();
+    }
+
+    @Test
+    void testTransformationFailure() {
+        XmlTransformer transformer = new XmlTransformer();
+        boolean result = transformer.transform(xmlPath, "invalid.xsl", outPath);
+
+        assertFalse(result, "Transformation with a missing stylesheet should return false");
     }
 }

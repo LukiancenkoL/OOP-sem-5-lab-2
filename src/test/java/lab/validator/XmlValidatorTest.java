@@ -1,6 +1,10 @@
 package lab.validator;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -18,5 +22,13 @@ class XmlValidatorTest {
     void testInvalidFilePath() {
         XmlValidator validator = new XmlValidator();
         assertFalse(validator.validate("invalid.xml", xsdPath), "Non-existent file should return false");
+    }
+
+    @Test
+    void testXmlThatBreaksSchema(@TempDir Path tmp) throws IOException {
+        Path xml = Files.writeString(tmp.resolve("bad.xml"), "<Planes><Plane/></Planes>");
+
+        XmlValidator validator = new XmlValidator();
+        assertFalse(validator.validate(xml.toString(), xsdPath), "XML that breaks the schema should return false");
     }
 }
